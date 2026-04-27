@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Smooth color transitions for theme switching */
+  html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  body {
+    @apply bg-white text-gray-900 dark:bg-bg-dark dark:text-gray-100;
+  }
+
+  /* Subtle noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-600;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* ─── Gradient shift animation for login visual ─── */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+    transform: scale(1.02) rotate(1deg);
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+}
+
+@keyframes gradient-shift-reverse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1.05) rotate(0deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95) rotate(-2deg);
+  }
+}
+
+.animate-gradient-shift {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease-in-out infinite;
+}
+
+.animate-gradient-shift-reverse {
+  animation: gradient-shift-reverse 6s ease-in-out infinite;
+}
+
+/* ─── DynamicBackground: slowly shifting gradient ─── */
+@keyframes dynamic-gradient-shift {
+  0%, 100% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+}
+
+.dynamic-bg-gradient {
+  background: linear-gradient(
+    135deg,
+    #eff6ff 0%,        /* blue-50 */
+    #ffffff 30%,        /* white */
+    #f3e8ff 60%,        /* purple-100 */
+    #ede9fe 80%,        /* violet-100 */
+    #eff6ff 100%        /* blue-50 */
+  );
+  background-size: 400% 400%;
+  animation: dynamic-gradient-shift 20s ease-in-out infinite;
+}
+
+:is(.dark) .dynamic-bg-gradient {
+  background: linear-gradient(
+    135deg,
+    #0B0F14 0%,
+    #0F172A 30%,
+    #111827 60%,
+    #0c1220 80%,
+    #0B0F14 100%
+  );
+  background-size: 400% 400%;
+  animation: dynamic-gradient-shift 20s ease-in-out infinite;
+}
